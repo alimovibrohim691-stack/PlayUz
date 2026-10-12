@@ -1,1 +1,113 @@
 
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PlayUz — bepul onlayn mini-o‘yinlar. Son topish va tanga o‘yinlarini o‘yna!">
+  <meta name="theme-color" content="#101126">
+  <title>PlayUz — Bepul onlayn o‘yinlar</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #101126;
+      color: white;
+    }
+    header {
+      background: linear-gradient(135deg,#702cff,#1c8dff);
+      padding: 30px 16px;
+      text-align: center;
+    }
+    header h1 { font-size: 38px; margin: 0; }
+    header p { margin-bottom: 0; }
+    main { max-width: 800px; margin: auto; padding: 20px; }
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+      gap: 15px;
+    }
+    .game {
+      background: #222440;
+      padding: 20px;
+      text-align: center;
+      border-radius: 16px;
+      border: 1px solid #41446b;
+    }
+    button {
+      background: #763cff;
+      color: white;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 9px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: #925fff; }
+    #result {
+      background: #222440;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: #b9bbd5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎮 PlayUz</h1>
+    <p>Bepul o‘yinlar olamiga xush kelibsiz!</p>
+  </header>
+
+  <main>
+    <h2>🕹️ O‘yinlarni tanla</h2>
+    <div class="games">
+      <section class="game">
+        <h3>🔢 Sonni top</h3>
+        <p>1 dan 10 gacha sonni top!</p>
+        <button onclick="guess()">O‘ynash</button>
+      </section>
+      <section class="game">
+        <h3>🪙 Tanga</h3>
+        <p>Tanga natijasini bil!</p>
+        <button onclick="coin()">O‘ynash</button>
+      </section>
+    </div>
+    <div id="result" aria-live="polite">
+      O‘yinni tanla va boshlaymiz!
+    </div>
+  </main>
+
+  <footer>© 2026 PlayUz | Bepul mini-o‘yinlar</footer>
+
+  <script>
+    function guess() {
+      const secret = Math.floor(Math.random() * 10) + 1;
+      const answer = prompt("1 dan 10 gacha son yoz:");
+      if (answer === null || answer.trim() === "") return;
+      const result = document.getElementById("result");
+      if (!Number.isInteger(Number(answer)) ||
+          Number(answer) < 1 || Number(answer) > 10) {
+        result.textContent = "1 dan 10 gacha butun son yoz!";
+      } else if (Number(answer) === secret) {
+        result.textContent = "🎉 Barakalla! To‘g‘ri topding!";
+      } else {
+        result.textContent = "Bu safar topolmading. Yashirin son: " + secret;
+      }
+    }
+
+    function coin() {
+      const side = Math.random() < 0.5 ? "Gerb" : "Raqam";
+      document.getElementById("result").textContent =
+        "🪙 Tanga natijasi: " + side;
+    }
+  </script>
+</body>
+</html>
