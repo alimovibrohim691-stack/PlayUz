@@ -2,608 +2,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080b14">
-  <meta name="description" content="PlayUz is your destination for free online games. Play puzzle, arcade, memory and brain games instantly.">
-  <meta name="keywords" content="free online games, browser games, puzzle games, arcade games, PlayUz">
-  <title>PlayUz — Free Online Games</title>
-
-  <style>
-    :root {
-      --bg: #080b14;
-      --panel: #111827;
-      --panel2: #151e30;
-      --text: #f5f7ff;
-      --muted: #9ba8c2;
-      --purple: #8b5cf6;
-      --blue: #38bdf8;
-      --border: rgba(255,255,255,.09);
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(ellipse at 15% 0%, #24144a 0, transparent 35%),
-        radial-gradient(ellipse at 95% 15%, #102c4b 0, transparent 30%),
-        var(--bg);
-      color: var(--text);
-      font-family: Inter, system-ui, -apple-system, Arial, sans-serif;
-      min-height: 100vh;
-    }
-
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-
-    .container {
-      width: min(1160px, 92%);
-      margin: auto;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(8,11,20,.88);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 27px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      color: white;
-      text-decoration: none;
-    }
-
-    .logo span {
-      color: var(--blue);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .nav-links a:hover { color: white; }
-
-    .hero {
-      padding: 76px 0 48px;
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      color: #c4b5fd;
-      background: rgba(139,92,246,.13);
-      border: 1px solid rgba(139,92,246,.28);
-      padding: 8px 14px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: clamp(38px, 7vw, 70px);
-      line-height: 1.08;
-      letter-spacing: -3px;
-      margin: 22px 0 16px;
-    }
-
-    .gradient {
-      background: linear-gradient(100deg, #a78bfa, #38bdf8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero p {
-      max-width: 580px;
-      margin: 0 auto;
-      line-height: 1.8;
-      color: var(--muted);
-    }
-
-    .search-wrap {
-      max-width: 540px;
-      margin: 30px auto 0;
-      display: flex;
-      gap: 10px;
-      padding: 7px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-    }
-
-    .search-wrap input {
-      min-width: 0;
-      flex: 1;
-      background: transparent;
-      color: white;
-      border: none;
-      outline: none;
-      padding: 12px;
-    }
-
-    .primary, .secondary, .category {
-      border: 0;
-      border-radius: 11px;
-      padding: 12px 17px;
-      font-weight: 750;
-      transition: transform .2s, filter .2s;
-    }
-
-    .primary {
-      background: linear-gradient(100deg, var(--purple), #5b8cff);
-      color: white;
-    }
-
-    .primary:hover, .secondary:hover, .category:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.12);
-    }
-
-    .secondary {
-      background: #253149;
-      color: white;
-      border: 1px solid var(--border);
-    }
-
-    .stats {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    .stat {
-      background: rgba(255,255,255,.035);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 18px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .stat strong { color: white; }
-
-    section { padding: 30px 0 54px; }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-
-    h2 {
-      font-size: clamp(24px, 4vw, 32px);
-      margin: 0 0 8px;
-      letter-spacing: -1px;
-    }
-
-    .sub { color: var(--muted); font-size: 14px; }
-
-    .categories {
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-
-    .category {
-      background: var(--panel);
-      color: #bdc8dd;
-      border: 1px solid var(--border);
-      padding: 10px 15px;
-    }
-
-    .category.active {
-      background: #6d4bd1;
-      color: white;
-      border-color: #8b5cf6;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .game-card {
-      min-width: 0;
-      background: linear-gradient(145deg, rgba(24,34,54,.96), rgba(13,19,32,.96));
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: transform .25s, border-color .25s;
-    }
-
-    .game-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(139,92,246,.6);
-    }
-
-    .game-art {
-      min-height: 150px;
-      display: grid;
-      place-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .game-art::before {
-      content: "";
-      position: absolute;
-      width: 170px;
-      height: 170px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.08);
-      filter: blur(1px);
-    }
-
-    .game-art span {
-      z-index: 1;
-      font-size: 66px;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,.3));
-    }
-
-    .art-purple { background: linear-gradient(135deg,#39206a,#171a43); }
-    .art-blue { background: linear-gradient(135deg,#123f69,#111b3d); }
-    .art-pink { background: linear-gradient(135deg,#692b64,#2b183e); }
-    .art-green { background: linear-gradient(135deg,#145847,#102b35); }
-    .art-orange { background: linear-gradient(135deg,#7a3d22,#321d2b); }
-    .art-cyan { background: linear-gradient(135deg,#155b69,#182b48); }
-
-    .game-info { padding: 18px; }
-
-    .game-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-
-    .tag {
-      background: rgba(139,92,246,.15);
-      color: #c4b5fd;
-      padding: 5px 9px;
-      border-radius: 30px;
-    }
-
-    .game-info h3 { margin: 0 0 8px; font-size: 19px; }
-
-    .game-info p {
-      min-height: 42px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-      margin: 0 0 18px;
-    }
-
-    .play-button { width: 100%; }
-
-    .empty {
-      grid-column: 1 / -1;
-      color: var(--muted);
-      text-align: center;
-      padding: 35px;
-    }
-
-    .game-room {
-      display: none;
-      margin: 0 auto 60px;
-      padding: 24px;
-      background: linear-gradient(145deg,#151e30,#0f1523);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      max-width: 720px;
-      scroll-margin-top: 95px;
-    }
-
-    .room-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .room-head h2 { margin: 0; }
-
-    .room-content { text-align: center; }
-
-    .status {
-      color: #c4b5fd;
-      min-height: 25px;
-      margin: 16px 0;
-      font-weight: 700;
-    }
-
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 100px));
-      justify-content: center;
-      gap: 8px;
-      margin: 22px auto;
-    }
-
-    .cell {
-      aspect-ratio: 1;
-      border-radius: 13px;
-      border: 1px solid var(--border);
-      background: #202b40;
-      color: white;
-      font-size: 34px;
-      font-weight: 800;
-    }
-
-    .cell:hover { background: #303e58; }
-
-    .memory-board {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(48px, 76px));
-      justify-content: center;
-      gap: 9px;
-      margin: 22px auto;
-    }
-
-    .memory-card {
-      aspect-ratio: 1;
-      border-radius: 12px;
-      background: #273653;
-      border: 1px solid #435373;
-      color: white;
-      font-size: 27px;
-    }
-
-    .memory-card.matched { background: #155745; border-color: #34d399; }
-
-    .game-input {
-      width: min(100%, 300px);
-      padding: 13px;
-      margin: 6px;
-      background: #0a1020;
-      border: 1px solid #394761;
-      border-radius: 10px;
-      color: white;
-      outline-color: var(--purple);
-    }
-
-    .big-number {
-      font-size: 48px;
-      font-weight: 900;
-      margin: 16px;
-    }
-
-    .reaction-pad {
-      min-height: 170px;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      border-radius: 16px;
-      background: #273653;
-      margin: 20px 0;
-      font-weight: 800;
-      font-size: 20px;
-      user-select: none;
-    }
-
-    .reaction-pad.waiting { background: #8b3030; }
-    .reaction-pad.ready { background: #13734f; }
-
-    .note { color: var(--muted); font-size: 13px; line-height: 1.7; }
-
-    .about {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.025);
-      border-radius: 18px;
-      padding: 25px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    .about h3 { color: white; }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 800px) {
-      .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .hero { padding-top: 55px; }
-    }
-
-    @media (max-width: 520px) {
-      .nav { min-height: 62px; }
-      .nav-links { gap: 12px; }
-      .nav-links a { font-size: 12px; }
-      .logo { font-size: 23px; }
-      .hero { padding: 45px 0 30px; }
-      h1 { letter-spacing: -1.7px; }
-      .grid { grid-template-columns: 1fr; }
-      .game-art { min-height: 135px; }
-      .section-heading { align-items: start; flex-direction: column; }
-      .game-room { padding: 15px; }
-      .room-head h2 { font-size: 21px; }
-      .search-wrap .primary { padding: 10px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b14">
+<meta name="description" content="PlayUz offers free online browser games, puzzles, memory challenges and arcade games. Play instantly on mobile or desktop.">
+<meta name="robots" content="index, follow">
+<title>PlayUz — Free Online Games</title>
+
+<style>
+:root {
+  --bg:#080b14; --panel:#121a2b; --panel2:#1d2940;
+  --text:#f5f7ff; --muted:#a1acc3;
+  --purple:#8b5cf6; --cyan:#38bdf8;
+  --border:rgba(255,255,255,.1);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; color:var(--text); background:
+  radial-gradient(ellipse at 10% 0%,#281449,transparent 35%),
+  radial-gradient(ellipse at 90% 20%,#102d45,transparent 30%),var(--bg);
+  font-family:system-ui,-apple-system,Arial,sans-serif;
+}
+button,input { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,a:focus-visible,input:focus-visible {
+  outline:2px solid var(--cyan); outline-offset:3px;
+}
+.container { width:min(1120px,92%); margin:auto; }
+header {
+  position:sticky; top:0; z-index:5;
+  background:#080b14eF; backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--border);
+}
+.nav {
+  min-height:70px; display:flex; justify-content:space-between;
+  align-items:center; gap:16px;
+}
+.logo { color:white; font-size:27px; font-weight:900;
+  letter-spacing:-1px; text-decoration:none; }
+.logo span { color:var(--cyan); }
+.nav-links { display:flex; gap:22px; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:14px; }
+.nav-links a:hover { color:white; }
+
+.hero { text-align:center; padding:75px 0 48px; }
+.badge {
+  display:inline-block; padding:8px 13px; border-radius:30px;
+  color:#d6c6ff; background:#8b5cf624; border:1px solid #8b5cf64d;
+  font-size:12px; font-weight:800; letter-spacing:1px;
+}
+h1 { font-size:clamp(40px,7vw,70px); line-height:1.05;
+  letter-spacing:-3px; margin:22px 0 16px; }
+.gradient {
+  background:linear-gradient(100deg,#b49aff,#38bdf8);
+  color:transparent; background-clip:text; -webkit-background-clip:text;
+}
+.hero p { color:var(--muted); max-width:590px; margin:0 auto; line-height:1.8; }
+.search {
+  max-width:540px; display:flex; gap:8px; padding:7px;
+  margin:28px auto 0; background:#ffffff0b;
+  border:1px solid var(--border); border-radius:15px;
+}
+.search input {
+  flex:1; min-width:0; padding:12px; color:white;
+  background:transparent; border:0; outline:none;
+}
+.btn {
+  border:0; border-radius:10px; padding:12px 16px;
+  font-weight:750; color:white; background:linear-gradient(110deg,#8b5cf6,#5879ff);
+  transition:filter .2s,transform .2s;
+}
+.btn:hover { filter:brightness(1.15); transform:translateY(-1px); }
+.btn.secondary { background:var(--panel2); border:1px solid var(--border); }
+.stats { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:25px; }
+.stat { padding:11px 16px; border:1px solid var(--border); border-radius:11px; color:var(--muted); font-size:13px; }
+.stat strong { color:white; }
+
+section { padding:28px 0 48px; }
+.heading { display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:22px; }
+h2 { font-size:clamp(24px,4vw,32px); letter-spacing:-1px; margin:0 0 7px; }
+.muted { color:var(--muted); font-size:14px; }
+.categories { display:flex; gap:9px; flex-wrap:wrap; margin-bottom:22px; }
+.category {
+  border:1px solid var(--border); border-radius:30px;
+  padding:10px 15px; color:var(--muted); background:#ffffff08;
+}
+.category:hover,.category.active { color:white; background:#7549d6; border-color:#a78bfa; }
+
+.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+.card {
+  overflow:hidden; min-width:0; border:1px solid var(--border);
+  border-radius:18px; background:linear-gradient(145deg,#172138,#101522);
+  transition:transform .2s,border-color .2s;
+}
+.card:hover { transform:translateY(-4px); border-color:#8b5cf6a0; }
+.art { height:145px; display:grid; place-items:center; font-size:65px; }
+.a1 { background:linear-gradient(135deg,#39206a,#171a43); }
+.a2 { background:linear-gradient(135deg,#692b64,#2b183e); }
+.a3 { background:linear-gradient(135deg,#123f69,#111b3d); }
+.a4 { background:linear-gradient(135deg,#145847,#102b35); }
+.a5 { background:linear-gradient(135deg,#7a3d22,#321d2b); }
+.a6 { background:linear-gradient(135deg,#155b69,#182b48); }
+.info { padding:17px; }
+.meta { display:flex; justify-content:space-between; gap:8px; color:var(--muted); font-size:12px; margin-bottom:12px; }
+.tag { color:#d2c2ff; background:#8b5cf626; padding:5px 8px; border-radius:20px; }
+.info h3 { margin:0 0 8px; font-size:19px; }
+.info p { color:var(--muted); font-size:13px; line-height:1.6; min-height:42px; margin:0 0 17px; }
+.play { width:100%; }
+.empty { grid-column:1/-1; text-align:center; color:var(--muted); padding:35px; }
+
+#gameRoom {
+  display:none; max-width:720px; margin:0 auto 55px; padding:22px;
+  border:1px solid var(--border); border-radius:20px;
+  background:linear-gradient(145deg,#151e30,#0e1422);
+  scroll-margin-top:90px;
+}
+.room-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:20px; }
+.room-head h2 { margin:0; }
+.game { text-align:center; }
+.game p { line-height:1.7; }
+.status { min-height:26px; color:#bca8ff; font-weight:700; margin:16px 0; }
+.game-input {
+  width:min(100%,280px); padding:12px; margin:8px 0;
+  color:white; background:#090e1a; border:1px solid #35425d;
+  border-radius:10px;
+}
+.board { display:grid; grid-template-columns:repeat(3,80px); gap:8px; justify-content:center; margin:20px auto; }
+.cell { width:80px; height:80px; border:1px solid var(--border); border-radius:12px; background:#202b40; color:white; font-size:32px; font-weight:800; }
+.cell:hover { background:#34415d; }
+.memory-board { display:grid; grid-template-columns:repeat(4,minmax(48px,68px)); gap:8px; justify-content:center; margin:20px auto; }
+.memory-card { aspect-ratio:1; border-radius:11px; border:1px solid #435373; background:#273653; color:white; font-size:25px; }
+.memory-card.matched { background:#155745; border-color:#34d399; }
+.big-number { font-size:42px; font-weight:900; margin:20px; }
+.reaction-pad { display:grid; place-items:center; min-height:150px; margin:18px 0; border-radius:14px; background:#273653; font-size:20px; font-weight:800; user-select:none; cursor:pointer; }
+.reaction-pad.waiting { background:#943c45; }
+.reaction-pad.ready { background:#13734f; }
+.about { padding:24px; border:1px solid var(--border); border-radius:17px; background:#ffffff05; color:var(--muted); line-height:1.8; }
+.about h2,.about h3 { color:white; }
+footer { border-top:1px solid var(--border); padding:26px 0; color:var(--muted); font-size:13px; }
+.footer-inner { display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; }
+[hidden] { display:none !important; }
+
+@media(max-width:800px) {
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:520px) {
+  .hero { padding:48px 0 30px; }
+  h1 { letter-spacing:-1.5px; }
+  .grid { grid-template-columns:1fr; }
+  .heading { align-items:flex-start; flex-direction:column; }
+  .art { height:135px; }
+  #gameRoom { padding:14px; }
+  .nav-links { gap:12px; }
+  .nav-links a { font-size:12px; }
+  .search .btn { padding:10px; }
+}
+</style>
 </head>
 
 <body>
 <header>
   <div class="container nav">
-    <a class="logo" href="#" aria-label="PlayUz home">Play<span>Uz</span>.</a>
-    <nav class="nav-links" aria-label="Main navigation">
+    <a class="logo" href="#">Play<span>Uz</span>.</a>
+    <nav class="nav-links">
       <a href="#games">Games</a>
       <a href="#about">About</a>
     </nav>
   </div>
 </header>
 
-<main>
-  <div class="container">
-    <section class="hero">
-      <span class="eyebrow">Your next favorite game starts here</span>
-      <h1>Play more.<br><span class="gradient">Have more fun.</span></h1>
-      <p>
-        Discover free browser games, challenge your brain,
-        beat your best score and enjoy gaming anywhere.
-        No downloads. Just play.
-      </p>
+<main class="container">
+  <section class="hero">
+    <span class="badge">YOUR NEXT FAVORITE GAME STARTS HERE</span>
+    <h1>Play more.<br><span class="gradient">Have more fun.</span></h1>
+    <p>Discover free browser games, challenge your brain, beat your best score and enjoy gaming anywhere. No downloads. Just play.</p>
 
-      <form class="search-wrap" id="searchForm">
-        <input id="searchInput" type="search"
-          placeholder="Search games..." aria-label="Search games">
-        <button class="primary" type="submit">Search</button>
-      </form>
+    <form class="search" id="searchForm">
+      <input id="searchInput" type="search" placeholder="Search games..." aria-label="Search games">
+      <button class="btn" type="submit">Search</button>
+    </form>
 
-      <div class="stats">
-        <div class="stat"><strong>06</strong> Games to explore</div>
-        <div class="stat"><strong>100%</strong> Free to play</div>
-        <div class="stat"><strong>0</strong> Downloads needed</div>
-      </div>
-    </section>
+    <div class="stats">
+      <div class="stat"><strong>6</strong> Free Games</div>
+      <div class="stat"><strong>100%</strong> Free to Play</div>
+      <div class="stat"><strong>0</strong> Downloads</div>
+    </div>
+  </section>
 
-    <section id="games">
-      <div class="section-heading">
-        <div>
-          <h2>Explore Games</h2>
-          <div class="sub">Choose your game and jump right in.</div>
+  <section id="games">
+    <div class="heading">
+      <div><h2>Explore Games</h2><div class="muted">Pick a game and jump right in.</div></div>
+      <div class="muted" id="resultCount">6 games available</div>
+    </div>
+
+    <div class="categories">
+      <button class="category active" data-category="All">All Games</button>
+      <button class="category" data-category="Puzzle">Puzzle</button>
+      <button class="category" data-category="Brain">Brain Games</button>
+      <button class="category" data-category="Arcade">Arcade</button>
+    </div>
+
+    <div class="grid" id="gameGrid">
+      <article class="card" data-name="tic tac toe" data-category="Brain">
+        <div class="art a1">⭕</div>
+        <div class="info"><div class="meta"><span class="tag">Brain</span><span>1 Player</span></div>
+          <h3>Tic Tac Toe</h3><p>Outsmart the computer in this classic strategy game.</p>
+          <button class="btn play" data-game="tic">Play Now →</button>
         </div>
-        <div class="sub" id="resultCount">6 games available</div>
-      </div>
+      </article>
 
-      <div class="categories" aria-label="Game categories">
-        <button class="category active" data-category="All">All Games</button>
-        <button class="category" data-category="Puzzle">Puzzle</button>
-        <button class="category" data-category="Brain">Brain Games</button>
-        <button class="category" data-category="Arcade">Arcade</button>
-      </div>
+      <article class="card" data-name="memory match" data-category="Puzzle">
+        <div class="art a2">🧠</div>
+        <div class="info"><div class="meta"><span class="tag">Puzzle</span><span>1 Player</span></div>
+          <h3>Memory Match</h3><p>Find matching pairs and train your memory.</p>
+          <button class="btn play" data-game="memory">Play Now →</button>
+        </div>
+      </article>
 
-      <div class="grid" id="gameGrid">
-        <article class="game-card" data-name="tic tac toe" data-category="Brain">
-          <div class="game-art art-purple"><span>⭕</span></div>
-          <div class="game-info">
-            <div class="game-meta"><span class="tag">Brain</span><span>2 players</span></div>
-            <h3>Tic Tac Toe</h3>
-            <p>Outsmart the computer in this timeless strategy classic.</p>
-            <button class="primary play-button" data-game="tic">Play Now →</button>
-          </div>
-        </article>
+      <article class="card" data-name="number guess" data-category="Brain">
+        <div class="art a3">🔢</div>
+        <div class="info"><div class="meta"><span class="tag">Brain</span><span>1 Player</span></div>
+          <h3>Number Guess</h3><p>Find the secret number in seven attempts.</p>
+          <button class="btn play" data-game="guess">Play Now →</button>
+        </div>
+      </article>
 
-        <article class="game-card" data-name="memory match" data-category="Puzzle">
-          <div class="game-art art-pink"><span>🧠</span></div>
-          <div class="game-info">
-            <div class="game-meta"><span class="tag">Puzzle</span><span>1 player</span></div>
-            <h3>Memory Match</h3>
-            <p>Flip the cards, find matching pairs and train your memory.</p>
-            <button class="primary play-button" data-game="memory">Play Now →</button>
-          </div>
-        </article>
+      <article class="card" data-name="reaction test" data-category="Arcade">
+        <div class="art a4">⚡</div>
+        <div class="info"><div class="meta"><span class="tag">Arcade</span><span>1 Player</span></div>
+          <h3>Reaction Test</h3><p>Test your reflexes and see how fast you react.</p>
+          <button class="btn play" data-game="reaction">Play Now →</button>
+        </div>
+      </article>
 
-        <article class="game-card" data-name="number guess" data-category="Brain">
-          <div class="game-art art-blue"><span>🔢</span></div>
-          <div class="game-info">
-            <div class="game-meta"><span class="tag">Brain</span><span>1 player</span></div>
-            <h3>Number Guess</h3>
-            <p>Can you find the secret number in as few tries as possible?</p>
-            <button class="primary play-button" data-game="guess">Play Now →</button>
-          </div>
-        </article>
+      <article class="card" data-name="rock paper scissors" data-category="Arcade">
+        <div class="art a5">✊</div>
+        <div class="info"><div class="meta"><span class="tag">Arcade</span><span>1 Player</span></div>
+          <h3>Rock Paper Scissors</h3><p>Choose your move and beat the computer.</p>
+          <button class="btn play" data-game="rps">Play Now →</button>
+        </div>
+      </article>
 
-        <article class="game-card" data-name="reaction test" data-category="Arcade">
-          <div class="game-art art-green"><span>⚡</span></div>
-          <div class="game-info">
-            <div class="game-meta"><span class="tag">Arcade</span><span>1 player</span></div>
-            <h3>Reaction Test</h3>
-            <p>Test your reflexes and discover how fast you can react.</p>
-            <button class="primary play-button" data-game="reaction">Play Now →</button>
-          </div>
-        </article>
+      <article class="card" data-name="quick math" data-category="Puzzle">
+        <div class="art a6">➗</div>
+        <div class="info"><div class="meta"><span class="tag">Puzzle</span><span>1 Player</span></div>
+          <h3>Quick Math</h3><p>Solve equations and sharpen your mind.</p>
+          <button class="btn play" data-game="math">Play Now →</button>
+        </div>
+      </article>
+    </div>
+  </section>
 
-        <article class="game-card" data-name="rock paper scissors" data-category="Arcade">
-          <div class="game-art art-orange"><span>✊</span></div>
-          <div class="game-info">
-            <div class="game-meta"><span class="tag">Arcade</span><span>1 player</span></div>
-            <h3>Rock Paper Scissors</h3>
-            <p>Pick your move and see if you can beat the computer.</p>
-            <button class="primary play-button" data-game="rps">Play Now →</button>
-          </div>
-        </article>
+  <section id="gameRoom" aria-live="polite">
+    <div class="room-head">
+      <h2 id="gameTitle">Game</h2>
+      <button class="btn secondary" id="closeGame">✕ Close</button>
+    </div>
+    <div class="game" id="gameContent"></div>
+  </section>
 
-        <article class="game-card" data-name="quick math" data-category="Puzzle">
-          <div class="game-art art-cyan"><span>➗</span></div>
-          <div class="game-info">
-            <div class="game-meta"><span class="tag">Puzzle</span><span>1 player</span></div>
-            <h3>Quick Math</h3>
-            <p>Solve math questions, sharpen your mind and build a streak.</p>
-            <button class="primary play-button" data-game="math">Play Now →</button>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="about" id="about">
-      <h2>Welcome to PlayUz</h2>
-      <p>
-        PlayUz is a simple place to enjoy free online games directly
-        in your browser. Explore puzzles, brain challenges and arcade
-        favorites on your phone, tablet or computer.
-      </p>
-      <h3>Instant gaming. Endless challenges.</h3>
-      <p>
-        Pick a game, challenge yourself and come back to beat your
-        personal best. New games can be added as the PlayUz collection grows.
-      </p>
-    </section>
-
-    <section class="game-room" id="gameRoom" aria-live="polite">
-      <div class="room-head">
-        <h2 id="gameTitle">Game</h2>
-        <button class="secondary" id="closeGame">✕ Close</button>
-      </div>
-      <div class="room-content" id="gameContent"></div>
-    </section>
-  </div>
+  <section class="about" id="about">
+    <h2>Welcome to PlayUz</h2>
+    <p>PlayUz is your destination for free online browser games. Enjoy puzzles, brain challenges and arcade favorites on your phone, tablet or computer.</p>
+    <h3>Instant gaming. Endless challenges.</h3>
+    <p>Choose a game, challenge yourself and come back to beat your personal best. More games can be added as the PlayUz collection grows.</p>
+  </section>
 </main>
 
 <footer>
@@ -615,122 +279,258 @@
 </footer>
 
 <script>
-  const $ = selector => document.querySelector(selector);
-  const $$ = selector => [...document.querySelectorAll(selector)];
+"use strict";
 
-  $("#year").textContent = new Date().getFullYear();
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 
-  let activeCategory = "All";
-  const cards = $$(".game-card");
+$("#year").textContent = new Date().getFullYear();
 
-  function filterGames() {
-    const query = $("#searchInput").value.trim().toLowerCase();
-    let count = 0;
+let activeCategory = "All";
 
-    cards.forEach(card => {
-      const matchesCategory =
-        activeCategory === "All" ||
-        card.dataset.category === activeCategory;
+function filterGames() {
+  const q = $("#searchInput").value.trim().toLowerCase();
+  let count = 0;
 
-      const matchesQuery =
-        card.dataset.name.includes(query) ||
-        card.innerText.toLowerCase().includes(query);
-
-      const visible = matchesCategory && matchesQuery;
-      card.style.display = visible ? "" : "none";
-      if (visible) count++;
-    });
-
-    $("#resultCount").textContent =
-      `${count} game${count === 1 ? "" : "s"} available`;
-  }
-
-  $$(".category").forEach(button => {
-    button.addEventListener("click", () => {
-      activeCategory = button.dataset.category;
-      $$(".category").forEach(b =>
-        b.classList.toggle("active", b === button)
-      );
-      filterGames();
-    });
+  $$(".card").forEach(card => {
+    const matchesCategory = activeCategory === "All" ||
+      card.dataset.category === activeCategory;
+    const matchesSearch = (card.dataset.name + " " + card.innerText)
+      .toLowerCase().includes(q);
+    const show = matchesCategory && matchesSearch;
+    card.hidden = !show;
+    if (show) count++;
   });
 
-  $("#searchForm").addEventListener("submit", event => {
-    event.preventDefault();
+  $("#resultCount").textContent =
+    `${count} game${count === 1 ? "" : "s"} available`;
+}
+
+$("#searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  filterGames();
+});
+$("#searchInput").addEventListener("input", filterGames);
+
+$$(".category").forEach(btn => {
+  btn.addEventListener("click", () => {
+    activeCategory = btn.dataset.category;
+    $$(".category").forEach(b => b.classList.toggle("active", b === btn));
     filterGames();
   });
+});
 
-  $("#searchInput").addEventListener("input", filterGames);
+const room = $("#gameRoom");
+const content = $("#gameContent");
+let cleanupGame = () => {};
 
-  const room = $("#gameRoom");
-  const content = $("#gameContent");
-  let cleanup = () => {};
+function openGame(title, markup, setup) {
+  cleanupGame();
+  $("#gameTitle").textContent = title;
+  content.innerHTML = markup;
+  room.style.display = "block";
+  cleanupGame = setup() || (() => {});
+  room.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
-  function openGame(title, html, init) {
-    cleanup();
-    $("#gameTitle").textContent = title;
-    content.innerHTML = html;
-    room.style.display = "block";
-    room.scrollIntoView({ behavior: "smooth", block: "start" });
-    cleanup = init ? init() || (() => {}) : () => {};
-  }
+$("#closeGame").addEventListener("click", () => {
+  cleanupGame();
+  cleanupGame = () => {};
+  room.style.display = "none";
+  content.innerHTML = "";
+});
 
-  $("#closeGame").addEventListener("click", () => {
-    cleanup();
-    room.style.display = "none";
-    content.innerHTML = "";
-    $("#games").scrollIntoView({ behavior: "smooth" });
-  });
+/* Tic Tac Toe */
+function launchTic() {
+  openGame("Tic Tac Toe", `
+    <p>You are X. The computer is O.</p>
+    <div class="board" id="ticBoard"></div>
+    <div class="status" id="ticStatus">Your turn!</div>
+    <button class="btn" id="ticReset">Play Again</button>
+  `, () => {
+    let board, finished, timer;
+    const lines = [[0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
-  // Tic Tac Toe: player versus computer
-  function startTicTacToe() {
-    openGame("Tic Tac Toe", `
-      <p class="note">You are X. The computer is O.</p>
-      <div class="board" id="ticBoard"></div>
-      <div class="status" id="ticStatus">Your turn!</div>
-      <button class="primary" id="ticReset">Play Again</button>
-    `, () => {
-      const boardElement = $("#ticBoard");
-      const status = $("#ticStatus");
-      const winningLines = [
-        [0,1,2],[3,4,5],[6,7,8],
-        [0,3,6],[1,4,7],[2,5,8],
-        [0,4,8],[2,4,6]
-      ];
-      let board = Array(9).fill("");
-      let finished = false;
-      let computerTimer;
+    function result() {
+      for (const [a,b,c] of lines) {
+        if (board[a] && board[a] === board[b] && board[a] === board[c])
+          return board[a];
+      }
+      return board.every(Boolean) ? "Draw" : "";
+    }
 
-      function winner() {
-        for (const [a,b,c] of winningLines) {
-          if (board[a] && board[a] === board[b] &&
-              board[a] === board[c]) return board[a];
+    function draw() {
+      $("#ticBoard").innerHTML = board.map((v,i) =>
+        `<button class="cell" data-i="${i}" aria-label="Cell ${i+1}">${v}</button>`
+      ).join("");
+      $$("#ticBoard button").forEach(btn =>
+        btn.addEventListener("click", () => move(Number(btn.dataset.i)))
+      );
+    }
+
+    function checkEnd() {
+      const r = result();
+      if (!r) return false;
+      finished = true;
+      $("#ticStatus").textContent =
+        r === "Draw" ? "It's a draw!" :
+        r === "X" ? "You win! 🎉" : "Computer wins!";
+      return true;
+    }
+
+    function move(i) {
+      if (finished || board[i]) return;
+      board[i] = "X";
+      draw();
+      if (checkEnd()) return;
+
+      $("#ticStatus").textContent = "Computer is thinking...";
+      timer = setTimeout(() => {
+        if (finished) return;
+        let choice = -1;
+
+        // Computer tries to win, then block the player.
+        for (const mark of ["O","X"]) {
+          for (let j=0; j<9; j++) {
+            if (board[j]) continue;
+            board[j] = mark;
+            const won = lines.some(([a,b,c]) =>
+              board[a] && board[a] === board[b] && board[a] === board[c]);
+            board[j] = "";
+            if (won) { choice = j; break; }
+          }
+          if (choice !== -1) break;
         }
-        return board.every(Boolean) ? "draw" : null;
+
+        const empty = board.map((v,j) => v ? -1 : j).filter(j => j >= 0);
+        if (choice === -1 && empty.includes(4)) choice = 4;
+        if (choice === -1 && empty.length)
+          choice = empty[Math.floor(Math.random() * empty.length)];
+
+        if (choice !== -1) board[choice] = "O";
+        draw();
+        if (!checkEnd()) $("#ticStatus").textContent = "Your turn!";
+      }, 250);
+    }
+
+    function reset() {
+      clearTimeout(timer);
+      board = Array(9).fill("");
+      finished = false;
+      $("#ticStatus").textContent = "Your turn!";
+      draw();
+    }
+
+    $("#ticReset").addEventListener("click", reset);
+    reset();
+    return () => clearTimeout(timer);
+  });
+}
+
+/* Memory Match */
+function launchMemory() {
+  openGame("Memory Match", `
+    <p>Moves: <b id="memMoves">0</b> · Pairs: <b id="memPairs">0</b> / 8</p>
+    <div class="memory-board" id="memBoard"></div>
+    <div class="status" id="memStatus">Find matching pairs!</div>
+    <button class="btn" id="memReset">Restart</button>
+  `, () => {
+    const symbols = ["🚀","🎮","⭐","💎","🐉","⚡","🎯","👾"];
+    let values, opened, matched, moves, locked, timer;
+
+    function reset() {
+      clearTimeout(timer);
+      values = [...symbols, ...symbols].sort(() => Math.random() - .5);
+      opened = [];
+      matched = [];
+      moves = 0;
+      locked = false;
+      $("#memMoves").textContent = "0";
+      $("#memPairs").textContent = "0";
+      $("#memStatus").textContent = "Find matching pairs!";
+      draw();
+    }
+
+    function draw() {
+      $("#memBoard").innerHTML = values.map((v,i) => {
+        const visible = opened.includes(i) || matched.includes(i);
+        return `<button class="memory-card ${matched.includes(i) ? "matched" : ""}"
+          data-i="${i}" aria-label="Memory card">${visible ? v : "❔"}</button>`;
+      }).join("");
+
+      $$("#memBoard button").forEach(btn =>
+        btn.addEventListener("click", () => flip(Number(btn.dataset.i)))
+      );
+    }
+
+    function flip(i) {
+      if (locked || opened.includes(i) || matched.includes(i)) return;
+      opened.push(i);
+      draw();
+      if (opened.length < 2) return;
+
+      moves++;
+      $("#memMoves").textContent = moves;
+      const [a,b] = opened;
+
+      if (values[a] === values[b]) {
+        matched.push(a,b);
+        opened = [];
+        $("#memPairs").textContent = matched.length / 2;
+        if (matched.length === 16)
+          $("#memStatus").textContent = `You won in ${moves} moves! 🎉`;
+        else $("#memStatus").textContent = "Great match!";
+        draw();
+      } else {
+        locked = true;
+        $("#memStatus").textContent = "Not a match. Try again!";
+        timer = setTimeout(() => {
+          opened = [];
+          locked = false;
+          draw();
+        }, 700);
+      }
+    }
+
+    $("#memReset").addEventListener("click", reset);
+    reset();
+    return () => clearTimeout(timer);
+  });
+}
+
+/* Number Guess */
+function launchGuess() {
+  openGame("Number Guess", `
+    <p>Guess a number between 1 and 100. You have 7 attempts.</p>
+    <input class="game-input" id="guessInput" type="number" min="1" max="100" placeholder="Enter a number">
+    <br><button class="btn" id="guessSubmit">Make a Guess</button>
+    <div class="status" id="guessStatus">Good luck!</div>
+    <p>Attempts left: <b id="guessLeft">7</b></p>
+    <button class="btn secondary" id="guessReset">New Game</button>
+  `, () => {
+    let secret, attempts, finished;
+
+    function reset() {
+      secret = Math.floor(Math.random() * 100) + 1;
+      attempts = 7;
+      finished = false;
+      $("#guessInput").disabled = false;
+      $("#guessSubmit").disabled = false;
+      $("#guessInput").value = "";
+      $("#guessLeft").textContent = attempts;
+      $("#guessStatus").textContent = "Enter your guess!";
+    }
+
+    function submit() {
+      if (finished) return;
+      const input = $("#guessInput");
+      const n = Number(input.value);
+
+      if (!input.value || !Number.isInteger(n) || n < 1 || n > 100) {
+        $("#guessStatus").textContent = "Enter a whole number from 1 to 100.";
+        return;
       }
 
-      function render() {
-        boardElement.innerHTML = "";
-        board.forEach((value, index) => {
-          const button = document.createElement("button");
-          button.className = "cell";
-          button.textContent = value;
-          button.setAttribute("aria-label",
-            `Cell ${index + 1}${value ? ": " + value : ""}`);
-          button.addEventListener("click", () => move(index));
-          boardElement.appendChild(button);
-        });
-      }
-
-      function finishCheck() {
-        const result = winner();
-        if (!result) return false;
-        finished = true;
-        status.textContent = result === "draw"
-          ? "It's a draw!"
-          : result === "X" ? "You win! 🎉" : "Computer wins!";
-        return true;
-      }
-
-      function move(index) {
-        if 
+      attempts--;
+      $("#guessLeft").textContent
