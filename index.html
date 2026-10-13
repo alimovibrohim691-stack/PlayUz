@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +6,14 @@
 <meta name="theme-color" content="#080b18">
 <title>PlayUz — Premium Gaming</title>
 <style>
-:root{color-scheme:dark;--bg:#080b18;--panel:#131a30;--purple:#8957ff;--cyan:#26d9ee;--muted:#a5b0cc}
+:root{--bg:#080b18;--purple:#8957ff;--cyan:#26d9ee;--muted:#a5b0cc}
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(ellipse at top,#202657,var(--bg) 65%);color:#f7f8ff;font-family:system-ui,Arial,sans-serif;min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer}
+button,input{font:inherit}button{cursor:pointer}
 header{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;background:#080b18ed;border-bottom:1px solid #ffffff15;position:sticky;top:0;z-index:3}
 .logo{font-size:27px;font-weight:900;letter-spacing:-1px}.logo span{color:var(--cyan)}
 nav{display:flex;gap:20px}nav a{color:#e1e7ff;text-decoration:none;font-size:14px}
-.hero{text-align:center;padding:70px 18px 40px}
+.hero{text-align:center;padding:65px 18px 38px}
 .badge{display:inline-block;border:1px solid #26d9ee55;background:#26d9ee12;color:#a5f3fc;padding:7px 13px;border-radius:30px;font-size:12px}
 h1{font-size:clamp(40px,7vw,72px);line-height:1.06;letter-spacing:-3px;margin:22px 0}
 .gradient{background:linear-gradient(90deg,#b79aff,#26d9ee);color:transparent;background-clip:text}
@@ -36,6 +34,7 @@ h2{margin:0 0 7px;font-size:27px}.muted{color:var(--muted);font-size:14px}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .card{background:linear-gradient(145deg,#171f3b,#111629);border:1px solid #ffffff14;border-radius:20px;padding:19px;min-width:0;transition:transform .2s,border-color .2s}
 .card:hover{transform:translateY(-4px);border-color:#8957ff99}
+.card[hidden]{display:none!important}
 .game-icon{height:125px;border-radius:14px;display:grid;place-items:center;font-size:61px;background:linear-gradient(135deg,#8957ff24,#26d9ee14);margin-bottom:17px}
 .pill{font-size:11px;color:#a5f3fc;background:#26d9ee12;padding:5px 9px;border-radius:20px}
 .card h3{margin:13px 0 6px;font-size:20px}.card p{color:var(--muted);font-size:13px;line-height:1.6;min-height:42px}
@@ -59,7 +58,7 @@ footer{text-align:center;border-top:1px solid #ffffff15;padding:25px;color:var(-
 .message{color:#a5f3fc;min-height:27px;line-height:1.5}
 .reaction-box{width:100%;min-height:170px;border:0;border-radius:16px;background:#eab308;color:#171717;font-size:22px;font-weight:850;margin:15px 0}
 .reaction-box.ready{background:#22c55e}.reaction-box.waiting{background:#dc3545;color:white}
-section#about{text-align:center;padding:35px 15px 60px}
+#about{text-align:center;padding:35px 15px 60px}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){header{padding:0 15px}nav{gap:10px}nav a{font-size:12px}.grid{grid-template-columns:1fr}.hero{padding-top:48px}.stats{gap:24px}.stat strong{font-size:19px}h1{letter-spacing:-2px}.game-icon{height:110px}}
 </style>
@@ -76,12 +75,12 @@ section#about{text-align:center;padding:35px 15px 60px}
   <p>Discover free mini-games, challenge your brain and beat your best scores. No downloads required.</p>
   <div class="search">
     <input id="search" type="search" placeholder="Search for a game..." aria-label="Search games">
-    <button class="btn" id="searchBtn">Search</button>
+    <button class="btn" id="searchBtn" type="button">Search</button>
   </div>
   <div class="stats">
     <div class="stat"><strong id="gameCount">6</strong><small>Free Games</small></div>
     <div class="stat"><strong id="playedCount">0</strong><small>Games Played</small></div>
-    <div class="stat"><strong>100%</strong><small>Free to Play</small></div>
+    <div class="stat"><strong id="xpCount">0</strong><small>XP Earned</small></div>
   </div>
 </section>
 
@@ -91,243 +90,186 @@ section#about{text-align:center;padding:35px 15px 60px}
     <div class="muted" id="resultCount">6 games available</div>
   </div>
   <div class="filters" id="filters">
-    <button class="filter active" data-filter="All">All Games</button>
-    <button class="filter" data-filter="Puzzle">Puzzle</button>
-    <button class="filter" data-filter="Brain">Brain</button>
-    <button class="filter" data-filter="Arcade">Arcade</button>
+    <button type="button" class="filter active" data-filter="All">All Games</button>
+    <button type="button" class="filter" data-filter="Puzzle">Puzzle</button>
+    <button type="button" class="filter" data-filter="Brain">Brain</button>
+    <button type="button" class="filter" data-filter="Arcade">Arcade</button>
   </div>
-  <div class="grid" id="gameGrid"></div>
+
+  <!-- The game cards exist in HTML, so they show even before JavaScript runs. -->
+  <div class="grid" id="gameGrid">
+    <article class="card" data-category="Brain" data-name="Tic Tac Toe">
+      <div class="game-icon">⭕</div><span class="pill">Brain · FREE</span>
+      <h3>Tic Tac Toe</h3><p>Play the classic game against the computer.</p>
+      <button class="btn play" type="button" data-play="ttt">Play Now →</button>
+    </article>
+    <article class="card" data-category="Puzzle" data-name="Memory Match">
+      <div class="game-icon">🧠</div><span class="pill">Puzzle · FREE</span>
+      <h3>Memory Match</h3><p>Find all the matching pairs.</p>
+      <button class="btn play" type="button" data-play="memory">Play Now →</button>
+    </article>
+    <article class="card" data-category="Brain" data-name="Number Hunter">
+      <div class="game-icon">🔢</div><span class="pill">Brain · FREE</span>
+      <h3>Number Hunter</h3><p>Guess the secret number in seven attempts.</p>
+      <button class="btn play" type="button" data-play="guess">Play Now →</button>
+    </article>
+    <article class="card" data-category="Arcade" data-name="Reaction Rush">
+      <div class="game-icon">⚡</div><span class="pill">Arcade · FREE</span>
+      <h3>Reaction Rush</h3><p>Test how quickly you can react.</p>
+      <button class="btn play" type="button" data-play="reaction">Play Now →</button>
+    </article>
+    <article class="card" data-category="Arcade" data-name="Rock Paper Scissors">
+      <div class="game-icon">✊</div><span class="pill">Arcade · FREE</span>
+      <h3>Rock Paper Scissors</h3><p>Choose your move and beat the computer.</p>
+      <button class="btn play" type="button" data-play="rps">Play Now →</button>
+    </article>
+    <article class="card" data-category="Puzzle" data-name="Quick Math">
+      <div class="game-icon">➗</div><span class="pill">Puzzle · FREE</span>
+      <h3>Quick Math</h3><p>Solve random equations and sharpen your mind.</p>
+      <button class="btn play" type="button" data-play="math">Play Now →</button>
+    </article>
+  </div>
   <div class="empty" id="empty">No games found. Try another search.</div>
 </main>
 
-<section id="about">
-  <h2>Ready for another round?</h2>
-  <p class="muted">Play instantly. Improve your skills. Enjoy the challenge.</p>
-</section>
+<section id="about"><h2>Ready for another round?</h2><p class="muted">Play instantly. Improve your skills. Enjoy the challenge.</p></section>
 <footer>© 2026 PlayUz · Built for fun</footer>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="dialog">
-    <div class="dialog-head">
-      <h2 id="modalTitle">Game</h2>
-      <button class="close" id="closeBtn" aria-label="Close game">×</button>
-    </div>
+    <div class="dialog-head"><h2 id="modalTitle">Game</h2><button class="close" id="closeBtn" type="button" aria-label="Close game">×</button></div>
     <div id="gameArea"></div>
   </div>
 </div>
 
 <script>
 "use strict";
-
-const games = [
- {id:"ttt",name:"Tic Tac Toe",icon:"⭕",category:"Brain",desc:"Can you beat the computer at this classic?"},
- {id:"memory",name:"Memory Match",icon:"🧠",category:"Puzzle",desc:"Find all the matching pairs."},
- {id:"guess",name:"Number Hunter",icon:"🔢",category:"Brain",desc:"Find the secret number in seven attempts."},
- {id:"reaction",name:"Reaction Rush",icon:"⚡",category:"Arcade",desc:"Test how quickly you can react."},
- {id:"rps",name:"Rock Paper Scissors",icon:"✊",category:"Arcade",desc:"Choose your move and beat the computer."},
- {id:"math",name:"Quick Math",icon:"➗",category:"Puzzle",desc:"Solve random equations as quickly as you can."}
+const games=[
+{id:"ttt",name:"Tic Tac Toe",category:"Brain"},
+{id:"memory",name:"Memory Match",category:"Puzzle"},
+{id:"guess",name:"Number Hunter",category:"Brain"},
+{id:"reaction",name:"Reaction Rush",category:"Arcade"},
+{id:"rps",name:"Rock Paper Scissors",category:"Arcade"},
+{id:"math",name:"Quick Math",category:"Puzzle"}
 ];
-
-const $ = id => document.getElementById(id);
-const grid = $("gameGrid");
-const area = $("gameArea");
-const modal = $("modal");
-let activeFilter = "All";
-let cleanup = () => {};
-let played = 0;
+const $=id=>document.getElementById(id);
+let activeFilter="All",played=0,xp=0,cleanup=()=>{};
+const grid=$("gameGrid"),area=$("gameArea"),modal=$("modal");
 
 function renderGames(){
- const q = $("search").value.trim().toLowerCase();
- const list = games.filter(g =>
-  (activeFilter === "All" || g.category === activeFilter) &&
-  (g.name.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q))
- );
- grid.innerHTML = list.map(g => `
-  <article class="card">
-   <div class="game-icon">${g.icon}</div>
-   <span class="pill">${g.category} · FREE</span>
-   <h3>${g.name}</h3>
-   <p>${g.desc}</p>
-   <button class="btn play" data-play="${g.id}">Play Now →</button>
-  </article>
- `).join("");
- $("empty").style.display = list.length ? "none" : "block";
- $("resultCount").textContent = `${list.length} game${list.length === 1 ? "" : "s"} available`;
- $("gameCount").textContent = games.length;
+ const q=$("search").value.trim().toLowerCase();
+ let count=0;
+ grid.querySelectorAll(".card").forEach(card=>{
+  const name=(card.dataset.name||"").toLowerCase();
+  const category=card.dataset.category||"";
+  const desc=(card.querySelector("p")?.textContent||"").toLowerCase();
+  const visible=(activeFilter==="All"||category===activeFilter)&&(!q||name.includes(q)||desc.includes(q));
+  card.hidden=!visible;
+  if(visible)count++;
+ });
+ $("empty").style.display=count?"none":"block";
+ $("resultCount").textContent=count+" game"+(count===1?"":"s")+" available";
 }
-
-$("filters").addEventListener("click", e => {
- const b = e.target.closest("[data-filter]");
- if(!b) return;
- activeFilter = b.dataset.filter;
- document.querySelectorAll(".filter").forEach(x => x.classList.toggle("active", x === b));
+$("filters").addEventListener("click",e=>{
+ const b=e.target.closest("[data-filter]");if(!b)return;
+ activeFilter=b.dataset.filter;
+ document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));
  renderGames();
 });
-$("search").addEventListener("input", renderGames);
-$("searchBtn").addEventListener("click", renderGames);
-$("search").addEventListener("keydown", e => {
- if(e.key === "Enter") renderGames();
+$("search").addEventListener("input",renderGames);
+$("searchBtn").addEventListener("click",renderGames);
+$("search").addEventListener("keydown",e=>{if(e.key==="Enter")renderGames();});
+grid.addEventListener("click",e=>{
+ const b=e.target.closest("[data-play]");
+ if(b)showGame(b.dataset.play);
 });
-
-grid.addEventListener("click", e => {
- const b = e.target.closest("[data-play]");
- if(b) showGame(b.dataset.play);
-});
-
 function showGame(id){
- cleanup();
- cleanup = () => {};
- const g = games.find(x => x.id === id);
- if(!g) return;
- $("modalTitle").textContent = g.icon + " " + g.name;
- area.innerHTML = "";
- modal.classList.add("open");
- document.body.style.overflow = "hidden";
- played++;
- $("playedCount").textContent = played;
- if(id === "ttt") startTTT();
- else if(id === "memory") startMemory();
- else if(id === "guess") startGuess();
- else if(id === "reaction") startReaction();
- else if(id === "rps") startRPS();
- else if(id === "math") startMath();
+ cleanup();cleanup=()=>{};
+ const g=games.find(x=>x.id===id);if(!g)return;
+ $("modalTitle").textContent=g.name;
+ area.innerHTML="";
+ modal.classList.add("open");document.body.style.overflow="hidden";
+ played++;$("playedCount").textContent=played;
+ if(id==="ttt")startTTT();
+ else if(id==="memory")startMemory();
+ else if(id==="guess")startGuess();
+ else if(id==="reaction")startReaction();
+ else if(id==="rps")startRPS();
+ else if(id==="math")startMath();
 }
 function closeGame(){
- cleanup();
- cleanup = () => {};
- modal.classList.remove("open");
- document.body.style.overflow = "";
- area.innerHTML = "";
+ cleanup();cleanup=()=>{};
+ modal.classList.remove("open");document.body.style.overflow="";area.innerHTML="";
 }
-$("closeBtn").addEventListener("click", closeGame);
-modal.addEventListener("click", e => { if(e.target === modal) closeGame(); });
-document.addEventListener("keydown", e => {
- if(e.key === "Escape" && modal.classList.contains("open")) closeGame();
-});
+$("closeBtn").addEventListener("click",closeGame);
+modal.addEventListener("click",e=>{if(e.target===modal)closeGame();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))closeGame();});
+function award(n=10){xp+=n;$("xpCount").textContent=xp;}
 
 function startTTT(){
- area.innerHTML = `
-  <div class="muted">You are X · Computer is O</div>
-  <div class="board" id="board"></div>
-  <div class="message" id="msg">Your turn!</div>
-  <button class="btn" id="restart">New Game</button>`;
- let cells = Array(9).fill("");
- let over = false;
- const board = $("board");
- function win(a,p){
-  return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
-   .some(line => line.every(i => a[i] === p));
- }
- function draw(){
-  board.innerHTML = cells.map((v,i) =>
-   `<button class="cell" data-cell="${i}" aria-label="Cell ${i+1}">${v}</button>`
-  ).join("");
- }
+ area.innerHTML=`<div class="muted">You are X · Computer is O</div><div class="board" id="board"></div><div class="message" id="msg">Your turn!</div><button class="btn" id="restart" type="button">New Game</button>`;
+ let cells=Array(9).fill(""),over=false;
+ const board=$("board");
+ const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+ function win(a,p){return lines.some(line=>line.every(i=>a[i]===p));}
+ function draw(){board.innerHTML=cells.map((v,i)=>`<button type="button" class="cell" data-cell="${i}" aria-label="Cell ${i+1}">${v}</button>`).join("");}
  function finish(){
-  if(win(cells,"X")){over=true;$("msg").textContent="🎉 You win!";}
+  if(win(cells,"X")){over=true;$("msg").textContent="🎉 You win!";award(20);}
   else if(win(cells,"O")){over=true;$("msg").textContent="Computer wins! Try again.";}
   else if(cells.every(Boolean)){over=true;$("msg").textContent="It's a draw!";}
  }
  function move(i){
-  if(over || cells[i]) return;
-  cells[i]="X";
-  draw(); finish();
-  if(over) return;
-  const free=cells.map((v,j)=>v? -1:j).filter(j=>j>=0);
-  // Computer prefers a winning move, then a blocking move.
-  let choice=-1;
+  if(over||cells[i])return;
+  cells[i]="X";draw();finish();if(over)return;
+  const free=cells.map((v,j)=>v?-1:j).filter(j=>j>=0);let choice=-1;
   for(const p of ["O","X"]){
-   for(const j of free){
-    const test=cells.slice();test[j]=p;
-    if(win(test,p)){choice=j;break;}
-   }
+   for(const j of free){const test=cells.slice();test[j]=p;if(win(test,p)){choice=j;break;}}
    if(choice>=0)break;
   }
-  if(choice<0 && free.includes(4)) choice=4;
-  if(choice<0) choice=free[Math.floor(Math.random()*free.length)];
-  cells[choice]="O";
-  draw();finish();
-  if(!over)$("msg").textContent="Your turn!";
+  if(choice<0&&free.includes(4))choice=4;
+  if(choice<0)choice=free[Math.floor(Math.random()*free.length)];
+  cells[choice]="O";draw();finish();if(!over)$("msg").textContent="Your turn!";
  }
- board.addEventListener("click",e=>{
-  const b=e.target.closest("[data-cell]");
-  if(b)move(Number(b.dataset.cell));
- });
- $("restart").addEventListener("click",startTTT);
- draw();
+ board.addEventListener("click",e=>{const b=e.target.closest("[data-cell]");if(b)move(Number(b.dataset.cell));});
+ $("restart").addEventListener("click",startTTT);draw();
 }
 
 function startMemory(){
  const icons=["🍒","🚀","🎮","⭐","🍀","💎","🐼","🔥"];
- let deck=[...icons,...icons].sort(()=>Math.random()-.5);
- let opened=[],matched=[],locked=false,moves=0;
- area.innerHTML=`
-  <div class="muted">Find all 8 matching pairs.</div>
-  <div class="message" id="memoryMsg">Moves: 0</div>
-  <div class="memory" id="memoryGrid"></div>
-  <button class="btn" id="memoryReset">Restart</button>`;
+ let deck=[...icons,...icons].sort(()=>Math.random()-.5),opened=[],matched=[],locked=false,moves=0,timer=null;
+ area.innerHTML=`<div class="muted">Find all 8 matching pairs.</div><div class="message" id="memoryMsg">Moves: 0</div><div class="memory" id="memoryGrid"></div><button class="btn" id="memoryReset" type="button">Restart</button>`;
  const board=$("memoryGrid");
- function draw(){
-  board.innerHTML=deck.map((v,i)=>{
-   const visible=matched.includes(i)||opened.includes(i);
-   return `<button class="game-btn" data-card="${i}" aria-label="Memory card">${visible?v:"?"}</button>`;
-  }).join("");
- }
+ function draw(){board.innerHTML=deck.map((v,i)=>{const visible=matched.includes(i)||opened.includes(i);return `<button type="button" class="game-btn" data-card="${i}" aria-label="Memory card">${visible?v:"?"}</button>`;}).join("");}
  function pick(i){
   if(locked||matched.includes(i)||opened.includes(i))return;
   opened.push(i);draw();
   if(opened.length===2){
-   moves++;
-   $("memoryMsg").textContent="Moves: "+moves;
+   moves++;$("memoryMsg").textContent="Moves: "+moves;
    if(deck[opened[0]]===deck[opened[1]]){
     matched.push(...opened);opened=[];draw();
-    if(matched.length===deck.length)$("memoryMsg").textContent="🎉 You matched every pair in "+moves+" moves!";
+    if(matched.length===deck.length){$("memoryMsg").textContent="🎉 All pairs found in "+moves+" moves!";award(20);}
    }else{
     locked=true;
-    const timer=setTimeout(()=>{
-     opened=[];locked=false;draw();
-    },750);
-    cleanup=()=>clearTimeout(timer);
+    timer=setTimeout(()=>{opened=[];locked=false;draw();},700);
    }
   }
  }
- board.addEventListener("click",e=>{
-  const b=e.target.closest("[data-card]");
-  if(b)pick(Number(b.dataset.card));
- });
+ board.addEventListener("click",e=>{const b=e.target.closest("[data-card]");if(b)pick(Number(b.dataset.card));});
  $("memoryReset").addEventListener("click",startMemory);
- draw();
+ cleanup=()=>clearTimeout(timer);draw();
 }
 
 function startGuess(){
- const secret=Math.floor(Math.random()*100)+1;
- let attempts=7;
- area.innerHTML=`
-  <p class="muted">I'm thinking of a number between 1 and 100.</p>
-  <div class="big" id="attempts">7 attempts left</div>
-  <form id="guessForm">
-   <input class="guess" id="guessInput" type="number" min="1" max="100" required placeholder="Enter a number">
-   <button class="btn" type="submit">Guess</button>
-  </form>
-  <div class="message" id="guessMsg">Good luck!</div>
-  <button class="game-btn" id="guessReset">New Number</button>`;
+ const secret=Math.floor(Math.random()*100)+1;let attempts=7,done=false;
+ area.innerHTML=`<p class="muted">Find the secret number from 1 to 100.</p><div class="big" id="attempts">7 attempts left</div><form id="guessForm"><input class="guess" id="guessInput" type="number" min="1" max="100" required placeholder="Enter a number"><button class="btn" type="submit">Guess</button></form><div class="message" id="guessMsg">Good luck!</div><button class="game-btn" id="guessReset" type="button">New Number</button>`;
  $("guessForm").addEventListener("submit",e=>{
-  e.preventDefault();
+  e.preventDefault();if(done)return;
   const n=Number($("guessInput").value);
-  if(!Number.isInteger(n)||n<1||n>100){
-   $("guessMsg").textContent="Enter a whole number from 1 to 100.";return;
-  }
-  attempts--;
-  $("attempts").textContent=attempts+" attempts left";
-  if(n===secret){
-   $("guessMsg").textContent="🎉 Correct! You found the number!";
-   $("guessInput").disabled=true;
-  }else if(attempts===0){
-   $("guessMsg").textContent="Game over! The number was "+secret+".";
-   $("guessInput").disabled=true;
-  }else{
-   $("guessMsg").textContent=n<secret?"Too low! Try higher.":"Too high! Try lower.";
-  }
+  if(!Number.isInteger(n)||n<1||n>100){$("guessMsg").textContent="Enter a whole number from 1 to 100.";return;}
+  attempts--;$("attempts").textContent=attempts+" attempts left";
+  if(n===secret){done=true;$("guessMsg").textContent="🎉 Correct! You found it!";$("guessInput").disabled=true;award(20);}
+  else if(attempts===0){done=true;$("guessMsg").textContent="Game over! The number was "+secret+".";$("guessInput").disabled=true;}
+  else $("guessMsg").textContent=n<secret?"Too low! Try higher.":"Too high! Try lower.";
   $("guessInput").value="";
  });
  $("guessReset").addEventListener("click",startGuess);
@@ -335,58 +277,30 @@ function startGuess(){
 
 function startReaction(){
  let state="idle",start=0,timer=null;
- area.innerHTML=`
-  <p class="muted">Wait for green, then tap as quickly as possible.</p>
-  <button class="reaction-box" id="reactionBox">START TEST</button>
-  <div class="big" id="reactionResult">Your result will appear here</div>
-  <button class="game-btn" id="reactionReset">Try Again</button>`;
+ area.innerHTML=`<p class="muted">Wait for green, then tap as quickly as possible.</p><button type="button" class="reaction-box" id="reactionBox">START TEST</button><div class="big" id="reactionResult">Your result will appear here</div><button class="game-btn" id="reactionReset" type="button">Try Again</button>`;
  const box=$("reactionBox");
- function reset(){
-  clearTimeout(timer);state="idle";
-  box.className="reaction-box";box.textContent="START TEST";
-  $("reactionResult").textContent="Ready when you are.";
- }
+ function reset(){clearTimeout(timer);state="idle";box.className="reaction-box";box.textContent="START TEST";$("reactionResult").textContent="Ready when you are.";}
  box.addEventListener("click",()=>{
   if(state==="idle"){
    state="waiting";box.className="reaction-box waiting";box.textContent="WAIT FOR GREEN...";
-   timer=setTimeout(()=>{
-    state="ready";start=performance.now();
-    box.className="reaction-box ready";box.textContent="TAP NOW!";
-   },1000+Math.random()*2500);
+   timer=setTimeout(()=>{state="ready";start=performance.now();box.className="reaction-box ready";box.textContent="TAP NOW!";},1000+Math.random()*2500);
   }else if(state==="waiting"){
-   clearTimeout(timer);state="idle";
-   box.className="reaction-box";box.textContent="TOO SOON!";
-   $("reactionResult").textContent="Wait until the box turns green.";
+   clearTimeout(timer);state="idle";box.className="reaction-box";box.textContent="Too soon — try again";$("reactionResult").textContent="Wait until the box turns green.";
   }else if(state==="ready"){
-   const ms=Math.round(performance.now()-start);state="done";
-   box.className="reaction-box";box.textContent="RESULT";
-   $("reactionResult").textContent=ms+" ms"+(ms<250?" — Amazing reflexes!":" — Try to beat it!");
+   const ms=Math.round(performance.now()-start);state="done";box.className="reaction-box";box.textContent="PLAY AGAIN";
+   $("reactionResult").textContent=ms+" ms"+(ms<250?" — Amazing reflexes!":" — Try to beat it!");award(10);
   }else reset();
  });
- $("reactionReset").addEventListener("click",reset);
- cleanup=()=>clearTimeout(timer);
+ $("reactionReset").addEventListener("click",reset);cleanup=()=>clearTimeout(timer);
 }
 
 function startRPS(){
- area.innerHTML=`
-  <p class="muted">First to win a round takes the glory!</p>
-  <div class="big" id="rpsScore">You 0 — 0 Computer</div>
-  <div class="message" id="rpsMsg">Choose your move.</div>
-  <div>
-   <button class="game-btn" data-rps="Rock">✊ Rock</button>
-   <button class="game-btn" data-rps="Paper">✋ Paper</button>
-   <button class="game-btn" data-rps="Scissors">✌️ Scissors</button>
-  </div>
-  <button class="btn" id="rpsReset">Reset Score</button>`;
- let you=0,computer=0;
- const emojis={Rock:"✊",Paper:"✋",Scissors:"✌️"};
+ area.innerHTML=`<p class="muted">Choose your move.</p><div class="big" id="rpsScore">You 0 — 0 Computer</div><div class="message" id="rpsMsg">Ready?</div><div><button type="button" class="game-btn" data-rps="Rock">✊ Rock</button><button type="button" class="game-btn" data-rps="Paper">✋ Paper</button><button type="button" class="game-btn" data-rps="Scissors">✌️ Scissors</button></div><button class="btn" id="rpsReset" type="button">Reset Score</button>`;
+ let you=0,computer=0;const emojis={Rock:"✊",Paper:"✋",Scissors:"✌️"};
  area.querySelectorAll("[data-rps]").forEach(b=>b.addEventListener("click",()=>{
-  const mine=b.dataset.rps;
-  const choices=["Rock","Paper","Scissors"];
-  const theirs=choices[Math.floor(Math.random()*3)];
-  let result;
+  const mine=b.dataset.rps,theirs=["Rock","Paper","Scissors"][Math.floor(Math.random()*3)];let result;
   if(mine===theirs)result="Draw!";
-  else if((mine==="Rock"&&theirs==="Scissors")||(mine==="Paper"&&theirs==="Rock")||(mine==="Scissors"&&theirs==="Paper")){you++;result="You win this round!";}
+  else if((mine==="Rock"&&theirs==="Scissors")||(mine==="Paper"&&theirs==="Rock")||(mine==="Scissors"&&theirs==="Paper")){you++;result="You win this round!";award(5);}
   else{computer++;result="Computer wins this round!";}
   $("rpsScore").textContent=`You ${you} — ${computer} Computer`;
   $("rpsMsg").textContent=`${emojis[mine]} ${mine} vs ${emojis[theirs]} ${theirs}. ${result}`;
@@ -396,40 +310,21 @@ function startRPS(){
 
 function startMath(){
  let score=0,answered=0,answer=0;
- area.innerHTML=`
-  <p class="muted">Solve as many questions as you can.</p>
-  <div class="big" id="mathScore">Score: 0</div>
-  <div class="big" id="mathQuestion"></div>
-  <form id="mathForm">
-   <input class="guess" id="mathInput" type="number" step="1" required placeholder="Your answer">
-   <button class="btn" type="submit">Submit</button>
-  </form>
-  <div class="message" id="mathMsg">Let's go!</div>
-  <button class="game-btn" id="mathReset">Restart</button>`;
+ area.innerHTML=`<p class="muted">Solve as many questions as you can.</p><div class="big" id="mathScore">Score: 0</div><div class="big" id="mathQuestion"></div><form id="mathForm"><input class="guess" id="mathInput" type="number" step="1" required placeholder="Your answer"><button class="btn" type="submit">Submit</button></form><div class="message" id="mathMsg">Let's go!</div><button class="game-btn" id="mathReset" type="button">Restart</button>`;
  function next(){
-  const a=Math.floor(Math.random()*20)+1;
-  const b=Math.floor(Math.random()*20)+1;
-  const op=Math.random()<.5?"+":"−";
-  answer=op==="+"?a+b:a-b;
-  $("mathQuestion").textContent=`${a} ${op} ${b} = ?`;
-  $("mathInput").value="";
-  $("mathInput").focus();
+  const a=Math.floor(Math.random()*20)+1,b=Math.floor(Math.random()*20)+1,op=Math.random()<.5?"+":"−";
+  answer=op==="+"?a+b:a-b;$("mathQuestion").textContent=`${a} ${op} ${b} = ?`;$("mathInput").value="";
  }
  $("mathForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  if($("mathInput").value.trim()==="")return;
-  answered++;
-  if(Number($("mathInput").value)===answer){
-   score++;$("mathMsg").textContent="Correct! 🎉";
-  }else $("mathMsg").textContent="Not quite! The answer was "+answer+".";
-  $("mathScore").textContent=`Score: ${score} · Questions: ${answered}`;
-  next();
+  e.preventDefault();if($("mathInput").value.trim()==="")return;answered++;
+  if(Number($("mathInput").value)===answer){score++;$("mathMsg").textContent="Correct! 🎉";award(2);}
+  else $("mathMsg").textContent="Not quite! The answer was "+answer+".";
+  $("mathScore").textContent=`Score: ${score} · Questions: ${answered}`;next();
  });
- $("mathReset").addEventListener("click",startMath);
- next();
+ $("mathReset").addEventListener("click",startMath);next();
 }
 
-// Render the games as soon as the page loads.
+$("gameCount").textContent=games.length;
 renderGames();
 </script>
 </body>
